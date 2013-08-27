@@ -3,6 +3,7 @@ package turotorial.spring.dao.springjdbc;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import turotorial.spring.dao.PersonDao;
@@ -14,7 +15,8 @@ public class PersonDaoSpringJdbc implements PersonDao{
     
     private static final Log LOG = LogFactory.getLog(PersonDaoSpringJdbc.class);
     
-    //private SimpleJdbcTemplate 
+    private SimpleJdbcTemplate simpleJdbcTemplate;
+    private 
     
     @Override
     public List<Person> getAll() {
