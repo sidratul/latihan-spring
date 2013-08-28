@@ -55,29 +55,29 @@ public class PersonDaoSpringJdbc implements PersonDao{
     
     @Override
     public List<Person> getAll() {
-        return simpleJdbcTemplate.query(SQL_GET_ALL, new PersonMapper(), 
-                new HashMap<String,String>());
+//        return simpleJdbcTemplate.query(SQL_GET_ALL, new PersonMapper(), 
+//                new HashMap<String,String>());
     }
     
     @Override
     public Person getById(final long id) {
-        try{
-            return simpleJdbcTemplate.queryForObject(SQL_GET_BY_ID,new PersonMapper(), id);
-        }catch(Exception e){
-            LOG.warn(e.getMessage(),e);
-            return null;
-        }
+//        try{
+//            return simpleJdbcTemplate.queryForObject(SQL_GET_BY_ID,new PersonMapper(), id);
+//        }catch(Exception e){
+//            LOG.warn(e.getMessage(),e);
+//            return null;
+//        }
     }
     
     @Override
     @Transactional(readOnly = false)
     public void save(final Person person) {
-        if(person.getId() != null){
-            simpleJdbcTemplate.getJdbcOperations().update(SQL_UPDATE,new Object[]{person.getName(), person.getEmail(),person.getId()});
-        }else{
-            final SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(person);
-            person.setId(simpleJdbcInsert.executeAndReturnKey(parameterSource).longValue());
-        }
+//        if(person.getId() != null){
+//            simpleJdbcTemplate.getJdbcOperations().update(SQL_UPDATE,new Object[]{person.getName(), person.getEmail(),person.getId()});
+//        }else{
+//            final SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(person);
+//            person.setId(simpleJdbcInsert.executeAndReturnKey(parameterSource).longValue());
+//        }
     }
     
 }
