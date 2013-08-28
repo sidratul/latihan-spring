@@ -2,9 +2,14 @@ package turotorial.spring.dao.springjdbc;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import javax.sql.DataSource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
@@ -33,24 +38,46 @@ public class PersonDaoSpringJdbc implements PersonDao{
         public Person mapRow(final ResultSet rs,final int rowNum) 
                 throws SQLException {
             final Person result = new Person();
-            //result.setId
+            result.setId(rs.getLong("id"));
+            result.setName(rs.getString("nama"));
+            result.setEmail(rs.getString("email"));
+            
+            return result;
         }
     
     }
     
+    @Autowired
+    public void setDataSource(final DataSource dataSource){
+        this.simpleJdbcTemplate = new SimpleJdbcTemplate(dataSource);
+        this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("T_PERSON").usingGeneratedKeyColumns("id");
+    }
+    
     @Override
     public List<Person> getAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return simpleJdbcTemplate.query(SQL_GET_ALL, new PersonMapper(), 
+                new HashMap<String,String>());
     }
     
     @Override
-    public Person getById(long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Person getById(final long id) {
+        try{
+            return simpleJdbcTemplate.queryForObject(SQL_GET_BY_ID,new PersonMapper(), id);
+        }catch(Exception e){
+            LOG.warn(e.getMessage(),e);
+            return null;
+        }
     }
     
     @Override
-    public void save(Person p) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    @Transactional(readOnly = false)
+    public void save(final Person person) {
+        if(person.getId() != null){
+            simpleJdbcTemplate.getJdbcOperations().update(SQL_UPDATE,new Object[]{person.getName(), person.getEmail(),person.getId()});
+        }else{
+            final SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(person);
+            person.setId(simpleJdbcInsert.executeAndReturnKey(parameterSource).longValue());
+        }
     }
     
 }
