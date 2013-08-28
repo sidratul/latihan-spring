@@ -55,6 +55,8 @@ public class PersonDaoSpringJdbc implements PersonDao{
     
     @Override
     public List<Person> getAll() {
+        return null;
+            
 //        return simpleJdbcTemplate.query(SQL_GET_ALL, new PersonMapper(), 
 //                new HashMap<String,String>());
     }
@@ -67,6 +69,8 @@ public class PersonDaoSpringJdbc implements PersonDao{
 //            LOG.warn(e.getMessage(),e);
 //            return null;
 //        }
+        
+        return null;
     }
     
     @Override
