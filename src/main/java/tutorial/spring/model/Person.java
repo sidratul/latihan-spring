@@ -1,4 +1,4 @@
-package turotorial.spring.model;
+package tutorial.spring.model;
 
 public class Person {
     private long id;

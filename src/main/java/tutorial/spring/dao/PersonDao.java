@@ -1,7 +1,7 @@
-package turotorial.spring.dao;
+package tutorial.spring.dao;
 
 import java.util.List;
-import turotorial.spring.model.Person;
+import tutorial.spring.model.Person;
 
 public interface PersonDao {
     public List<Person> getAll();

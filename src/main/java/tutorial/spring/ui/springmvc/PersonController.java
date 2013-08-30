@@ -1,4 +1,4 @@
-package turotorial.spring.ui.springmvc;
+package tutorial.spring.ui.springmvc;
 
 public class PersonController {
     
